@@ -14,7 +14,7 @@ taxi plugin install tempo
 Known limitations
 -----------------
 
-## Duration as hours is not supported
+### Duration as hours is not supported
 
 As stated in [taxi's documentation](https://taxi-timesheets.readthedocs.io/en/master/userguide.html#timesheet-syntax) :
 
