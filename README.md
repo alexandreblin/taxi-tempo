@@ -18,7 +18,7 @@ In your `.taxirc` file, use the `tempo` protocol for your backend.
 
 ```ini
 [backends]
-my_tempo_backend = tempo://jira_user_account_id:tempo_api_token@api.tempo.io/core/3/
+my_tempo_backend = tempo://[jira_user_account_id]:[tempo_api_token]@api.tempo.io/core/3/
 ```
 
 To auto-generate taxi aliases, you can specify your JIRA projects as follow:
