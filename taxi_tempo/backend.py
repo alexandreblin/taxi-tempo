@@ -19,6 +19,9 @@ class TempoBackend(BaseBackend):
         self.hostname = kwargs['hostname']
 
     def push_entry(self, date, entry):
+        if not isinstance(entry.duration, tuple):
+            raise PushEntryFailed('This backend does not support durations as hours. Please use a time range.')
+
         seconds = int(entry.hours * 3600)
         mapping = aliases_database[entry.alias]
 
