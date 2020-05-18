@@ -58,7 +58,7 @@ class TempoBackend(BaseBackend):
     def get_projects(self):
         projects_list = []
 
-        for project_name, count in self.settings.config.items('tempo_projects'):
+        for project_name, count in self.settings.config.items('jira_projects'):
             project_name = project_name.upper()
             p = Project(self.get_project_hash(project_name), project_name, Project.STATUS_ACTIVE)
             for i in range(1, int(count) + 1):
