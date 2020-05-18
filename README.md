@@ -24,7 +24,7 @@ my_tempo_backend = tempo://[jira_user_account_id]:[tempo_api_token]@api.tempo.io
 To auto-generate taxi aliases, you can specify your JIRA projects as follow:
 
 ```ini
-[tempo_projects]
+[jira_projects]
 infra = 10000
 ops = 1000
 dev = 100
