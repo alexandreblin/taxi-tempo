@@ -1,11 +1,14 @@
 from collections import defaultdict
 
+from taxi.aliases import aliases_database
 from taxi.backends import BaseBackend, PushEntryFailed
 from taxi.projects import Activity, Project
 
 import requests
 
 class TempoBackend(BaseBackend):
+    HASH_N=3
+    
     def __init__(self, **kwargs):
         super(TempoBackend, self).__init__(**kwargs)
         self.path = self.path.lstrip('/')
@@ -17,9 +20,10 @@ class TempoBackend(BaseBackend):
 
     def push_entry(self, date, entry):
         seconds = int(entry.hours * 3600)
+        mapping = aliases_database[entry.alias]
 
         r = requests.post(f'https://{self.hostname}/{self.path}/worklogs', json={
-            'issueKey': entry.alias.upper(),
+            'issueKey': "%s-%d" % (self.get_project_name(mapping.mapping[0]), mapping.mapping[1]),
             'timeSpentSeconds': seconds,
             'startDate': date.strftime('%Y-%m-%d'),
             'startTime': entry.get_start_time().strftime('%H:%M:%S'),
@@ -33,11 +37,20 @@ class TempoBackend(BaseBackend):
             raise PushEntryFailed(', '.join(e['message'] for e in r.json()['errors']))
 
     def get_project_hash(self, project_name):
-        result = 0
-        for i, c in enumerate(project_name):
-            result += ord(c) * pow(10, i * 3)
+        hash = 0
+        for i, c in enumerate(project_name.upper()):
+            hash += ord(c) * pow(10, i * self.HASH_N)
 
-        return result
+        return hash
+
+    def get_project_name(self, hash):
+        hash = str("0%d" % hash)
+
+        ords = [hash[i:i+self.HASH_N] for i in range(0, len(hash), self.HASH_N)]
+        ords.reverse()
+        letters = list(map(lambda ord: chr(int(ord)), ords))
+
+        return "".join(letters)
 
     def get_projects(self):
         projects_list = []
