@@ -14,7 +14,7 @@ taxi plugin install tempo
 Configuration
 -------------
 
-In your `.taxirc` file, use the `tempo` protocol for your backend.
+Run `taxi config` and use the `tempo` protocol for your backend :
 
 ```ini
 [backends]
@@ -36,7 +36,7 @@ ops = 1000
 infra = 100
 ```
 
-> The numbers represent the range of JIRA tickets that will be statically generated as taxi aliases (DEV-1, DEV-2, DEV-3, ..., DEV-100). Whenever your JIRA project reaches a ticket above that range, taxi will display a warning `inexistent alias` and ignore your entry. To fix it, edit `.taxirc`, raise the number and run `taxi update`.
+> The numbers represent the range of JIRA tickets that will be statically generated as taxi aliases (DEV-1, DEV-2, DEV-3, ..., DEV-100). Whenever your JIRA project reaches a ticket above that range, taxi will display a warning `inexistent alias` and ignore your entry. To fix it, run `taxi config`, raise the number and run `taxi update`.
 
 Usage
 -----
