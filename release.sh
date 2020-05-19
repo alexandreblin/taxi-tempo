@@ -1,10 +1,11 @@
 #!/bin/sh
 
 release () {
+    git checkout master
     echo "__version__ = '$1'" > taxi_tempo/__init__.py
     git commit -m "Bump version number to $1" taxi_tempo/__init__.py
     git tag -m "Release $1" -s $1
-    git push origin $1
+    git push origin master $1
     rm dist/*
     ./setup.py sdist
     twine upload dist/*
