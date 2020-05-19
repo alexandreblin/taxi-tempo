@@ -11,8 +11,8 @@ Installation
 taxi plugin install tempo
 ```
 
-Usage
------
+Configuration
+-------------
 
 In your `.taxirc` file, use the `tempo` protocol for your backend.
 
@@ -21,16 +21,36 @@ In your `.taxirc` file, use the `tempo` protocol for your backend.
 my_tempo_backend = tempo://[jira_user_account_id]:[tempo_api_token]@api.tempo.io/core/3/
 ```
 
-To auto-generate taxi aliases, you can specify your JIRA projects as follow:
+* `[jira_user_account_id]` can be found at the end of the URL of your JIRA profile page, like `https://[instance].atlassian.net/jira/people/5daee3299703bc0c2d27a5cc` (to open this page, click on your avatar in the top right corner, then click the `Profile` link in the section with your name)
+* `[tempo_api_token]` is a token you need to create by going to the `Apps > Tempo > Settings > API Integration > [+ New Token]` page in Jira :
+    * give it a name (like `taxi`)
+    * set the expiration to 5000 days (so you don't need to worry about that
+    * set a custom access and check `Manage Worklogs` (it will automatically check `View Worklogs` too)
+
+To generate taxi aliases, specify your JIRA projects as follows and run `taxi update`:
 
 ```ini
 [jira_projects]
-infra = 10000
+dev = 10000
 ops = 1000
-dev = 100
+infra = 100
 ```
 
-The numbers represent the range of JIRA tickets being statically aliased (DEV-1, DEV-2, DEV-3, ..., DEV-100). Whenever your JIRA project reaches a ticket above that range, taxi will display a warning `inexistent alias` and ignore your entry. To fix it, edit `.taxirc`, raise the number and run `taxi update`.
+> The numbers represent the range of JIRA tickets that will be statically generated as taxi aliases (DEV-1, DEV-2, DEV-3, ..., DEV-100). Whenever your JIRA project reaches a ticket above that range, taxi will display a warning `inexistent alias` and ignore your entry. To fix it, edit `.taxirc`, raise the number and run `taxi update`.
+
+Usage
+-----
+
+You can now add timesheet entries like :
+
+```
+19/05/2020 # Tuesday
+INFRA-38      08:00-09:00    Monitoring server
+DEV-2087           -10:30    Fixing bug
+OPS-952            -?        Work in progress...
+```
+
+> You can use lowercase aliases too.
 
 Things you should know
 ----------------------
