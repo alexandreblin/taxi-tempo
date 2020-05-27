@@ -26,7 +26,7 @@ class TempoBackend(BaseBackend):
         mapping = aliases_database[entry.alias]
 
         r = requests.post(f'https://{self.hostname}/{self.path}/worklogs', json={
-            'issueKey': '%s-%d' % (str(mapping.mapping[0]).upper(), int(mapping.mapping[1])),
+            'issueKey': f'{str(mapping.mapping[0]).upper()}-{int(mapping.mapping[1])}',
             'timeSpentSeconds': seconds,
             'startDate': date.strftime('%Y-%m-%d'),
             'startTime': entry.get_start_time().strftime('%H:%M:%S'),
@@ -44,8 +44,8 @@ class TempoBackend(BaseBackend):
 
         for project_name, count in self.settings.config.items('jira_projects'):
             project_name = project_name.upper()
-            p = Project(project_name, '[JIRA] %s' % project_name, Project.STATUS_ACTIVE,
-                        description=('JIRA Project %s (created by backend %s)' % (project_name, self.name))
+            p = Project(project_name, f'[JIRA] {project_name}', Project.STATUS_ACTIVE,
+                    description=f'JIRA Project {project_name} (created by backend {self.name})'
             )
             for i in range(1, int(count) + 1):
                 name = f'{project_name}-{i}'
