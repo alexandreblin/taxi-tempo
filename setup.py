@@ -3,8 +3,8 @@ from setuptools import find_packages, setup
 from taxi_tempo import __version__
 
 install_requires = [
+    #'taxi>=5.0', Disabled for now, until we can use py.pi releases again
     'requests>=2.3.0',
-    'taxi>=5.0',
 ]
 
 setup(
