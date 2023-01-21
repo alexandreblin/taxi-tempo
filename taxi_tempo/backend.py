@@ -41,7 +41,12 @@ class TempoBackend(BaseBackend):
         )
 
         if r.status_code != 200:
-            raise PushEntryFailed(f"[{self.name}] {', '.join(e['message'] for e in r.json()['errors'])}")
+            try:
+                details = f"{', '.join(e['message'] for e in r.json()['errors'])}"
+            except: 
+                details = "Unknown error"
+
+            raise PushEntryFailed(f"[{self.name}][HTTP {r.status_code}] {details}")
 
     def get_projects(self):
         projects_list = []
